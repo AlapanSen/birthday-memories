@@ -1,0 +1,577 @@
+/* ════════════════════════════════════════════════════════════
+   HERO — layout
+   ════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 5rem) clamp(2.75rem, 5vw, 3.5rem);
+  overflow: clip;
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'intro'
+    'photo'
+    'body';
+  align-content: center;
+  row-gap: clamp(1.4rem, 5vw, 2.5rem);
+}
+
+.hero__intro {
+  grid-area: intro;
+  container-type: inline-size; /* lets the headline size itself to its column */
+}
+.hero__photo {
+  grid-area: photo;
+  display: grid;
+  place-items: center;
+}
+.hero__body {
+  grid-area: body;
+}
+
+@media (min-width: 64rem), (min-width: 48rem) and (orientation: landscape) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas:
+      'photo .'
+      'photo intro'
+      'photo body'
+      'photo .';
+    column-gap: clamp(2.5rem, 7vw, 7.5rem);
+    row-gap: 0;
+  }
+  .hero__photo {
+    justify-items: end;
+  }
+}
+
+/* The frame wrapper controls the Polaroid's size.
+   Desktop: as wide as the column, but never taller than the viewport. */
+.hero__photo-frame {
+  position: relative;
+  width: min(100%, 33rem, calc((100svh - 11.5rem) / 1.45));
+}
+
+@media (max-width: 47.99rem), (max-width: 63.99rem) and (orientation: portrait) {
+  .hero__photo-frame {
+    width: min(76vw, 26rem, max(15rem, calc((100svh - 27.5rem) / 1.45)));
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   HERO — text
+   ════════════════════════════════════════════════════════════ */
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 clamp(0.75rem, 1.6vw, 1.25rem);
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 1.05rem + 0.9vw, 1.8rem);
+  line-height: 1.1;
+  color: var(--color-terracotta-deep);
+  rotate: -1.5deg;
+  transform-origin: left center;
+}
+.hero__eyebrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.hero__headline {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  /* Fluid, but capped by the column width so "my favourite person." stays on one line. */
+  font-size: min(clamp(2.5rem, 1.4rem + 5vw, 6.4rem), 12.6cqi);
+  line-height: 0.98;
+  letter-spacing: -0.018em;
+  color: var(--color-espresso);
+  text-wrap: balance;
+}
+
+.hero__line {
+  position: relative;
+  display: block;
+  width: fit-content;
+}
+
+.hero__line--accent {
+  margin-top: 0.06em;
+  padding-left: 0.55em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-terracotta);
+}
+
+.hero__underline {
+  position: absolute;
+  left: 0.75em;
+  right: 0.1em;
+  bottom: -0.16em;
+  width: calc(100% - 0.85em);
+  height: 0.2em;
+  color: var(--color-honey);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero__intro-text {
+  max-width: 29rem;
+  margin: clamp(1.4rem, 2.6vw, 2.1rem) 0 0;
+  font-size: clamp(1rem, 0.93rem + 0.32vw, 1.16rem);
+  line-height: 1.72;
+  color: var(--color-muted);
+}
+
+.hero__divider {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: clamp(1.5rem, 2.4vw, 2rem) 0;
+  color: var(--color-rose);
+}
+.hero__divider-line {
+  width: 3.5rem;
+  height: 1px;
+  background: currentColor;
+}
+.hero__divider-line--short {
+  width: 1.1rem;
+  opacity: 0.7;
+}
+
+.hero__signature {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 80rem;
+  margin: clamp(2rem, 4vw, 1.5rem) auto 0;
+  font-family: var(--font-hand);
+  font-size: clamp(1.15rem, 1rem + 0.4vw, 1.4rem);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (min-width: 64rem), (min-width: 48rem) and (orientation: landscape) {
+  .hero__signature {
+    text-align: right;
+  }
+}
+
+/* Mobile: centre the text stack around the Polaroid */
+@media (max-width: 47.99rem), (max-width: 63.99rem) and (orientation: portrait) {
+  .hero__intro,
+  .hero__body {
+    text-align: center;
+  }
+  .hero__eyebrow {
+    transform-origin: center;
+  }
+  .hero__line {
+    margin-inline: auto;
+  }
+  .hero__line--accent {
+    padding-left: 0;
+  }
+  .hero__underline {
+    left: 0.05em;
+    width: 100%;
+  }
+  .hero__intro-text {
+    margin: 0 auto;
+    max-width: 24rem;
+  }
+  .hero__divider {
+    justify-content: center;
+    margin: 1.1rem 0 1.25rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CTA
+   ════════════════════════════════════════════════════════════ */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 3.35rem;
+  padding: 0.5rem 0.55rem 0.5rem 1.6rem;
+  border-radius: 999px;
+  background: var(--color-espresso);
+  color: var(--color-paper);
+  font-size: 0.98rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.08) inset, 0 10px 22px -12px rgb(45 33 29 / 0.55);
+  transition:
+    background-color 0.45s ease,
+    box-shadow 0.45s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cta__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  background: var(--color-paper);
+  color: var(--color-terracotta-deep);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover {
+    background: var(--color-terracotta-deep);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.1) inset, 0 14px 26px -12px rgb(169 90 71 / 0.6);
+  }
+  .cta:hover .cta__arrow {
+    transform: translateY(3px);
+  }
+}
+
+.cta:active .cta__arrow {
+  transform: translateY(3px);
+}
+
+.cta:focus-visible {
+  border-radius: 999px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   POLAROID
+   ════════════════════════════════════════════════════════════ */
+
+.polaroid-stage {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  container-type: inline-size; /* everything inside scales with the Polaroid via cqi */
+}
+
+.polaroid-float {
+  position: relative;
+}
+
+.polaroid {
+  position: relative;
+  margin: 0;
+  padding: 5.4cqi 5.4cqi 0;
+  border-radius: 1.5px 2.5px 2px 3px;
+  background-color: #fffbf3;
+  background-image:
+    radial-gradient(130% 70% at 100% 100%, rgb(216 175 114 / 0.1), transparent 60%),
+    linear-gradient(172deg, #fffefa 0%, #fdf8ef 55%, #f8f0e3 100%);
+  box-shadow:
+    var(--shadow-paper),
+    inset 0 0 0 1px rgb(255 255 255 / 0.7),
+    inset 0 0 1.4cqi rgb(140 105 70 / 0.08);
+  cursor: default;
+}
+
+/* Worn edge: a hair of grime + a tiny lifted corner shading */
+.polaroid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, transparent 92%, rgb(120 90 60 / 0.07) 100%),
+    linear-gradient(to bottom, transparent 97%, rgb(120 90 60 / 0.05));
+}
+
+.polaroid__window {
+  position: relative;
+  overflow: hidden;
+  background: #3a2a24;
+}
+
+.polaroid__develop {
+  position: absolute;
+  inset: 0;
+}
+
+.polaroid__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  user-select: none;
+}
+
+/* Glossy film surface + vignette + a whisper of warmth */
+.polaroid__sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(122deg, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0.04) 26%, transparent 38%),
+    radial-gradient(120% 95% at 50% 42%, transparent 58%, rgb(45 33 29 / 0.26) 100%);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.28),
+    inset 0 0 0 1px rgb(45 33 29 / 0.18);
+}
+.polaroid__window::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--color-honey);
+  mix-blend-mode: soft-light;
+  opacity: 0.22;
+}
+
+.polaroid__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3cqi;
+  padding: 10cqi;
+  background:
+    radial-gradient(70% 55% at 65% 30%, rgb(255 241 214 / 0.8), transparent 70%),
+    linear-gradient(180deg, #efdcc0, #dcbca0);
+  color: var(--color-muted);
+  font-family: var(--font-hand);
+  font-size: 6.4cqi;
+  line-height: 1.15;
+  text-align: center;
+}
+.polaroid__fallback svg {
+  color: var(--color-terracotta);
+  width: 9cqi;
+  height: 9cqi;
+}
+
+.polaroid__caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 24cqi;
+  padding: 2.4cqi 4cqi 3.6cqi;
+  line-height: 1;
+}
+
+.polaroid__caption-main {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 10cqi;
+  color: #43302a; /* ink, not pure espresso — feels written */
+  rotate: -2deg;
+  translate: -3cqi 0;
+}
+
+.polaroid__note {
+  margin-top: 1.8cqi;
+  font-family: var(--font-hand);
+  font-size: 5.4cqi;
+  color: var(--color-muted);
+  rotate: -1deg;
+  translate: 9cqi 0;
+}
+
+/* Washi tape */
+.polaroid__tape {
+  position: absolute;
+  z-index: 2;
+  top: -3.8cqi;
+  left: 50%;
+  width: 31cqi;
+  height: 8.8cqi;
+  transform: translateX(-64%) rotate(-4.5deg);
+  background:
+    radial-gradient(circle at 30% 50%, rgb(255 255 255 / 0.18) 0 1.2px, transparent 1.6px) 0 0 / 9px 9px,
+    linear-gradient(180deg, rgb(234 214 178 / 0.82), rgb(222 196 156 / 0.78));
+  box-shadow: inset 0 0 0 100px rgb(255 248 235 / 0.06);
+  clip-path: polygon(
+    1.5% 0, 98.5% 0, 100% 12%, 97% 24%, 100% 37%, 97.5% 50%, 100% 62%, 97% 75%, 100% 88%, 98.5% 100%,
+    1.5% 100%, 0 89%, 2.8% 77%, 0 64%, 2.4% 51%, 0 38%, 3% 25%, 0 12%
+  );
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.polaroid__doodle {
+  position: absolute;
+  pointer-events: none;
+}
+.polaroid__doodle--sparkle {
+  top: -7cqi;
+  right: -6.5cqi;
+  width: 9cqi;
+  height: 9cqi;
+  color: #c4954f;
+}
+.polaroid__doodle--heart {
+  bottom: 8cqi;
+  left: -9.5cqi;
+  width: 6.5cqi;
+  height: 6.5cqi;
+  color: var(--color-terracotta);
+}
+
+/* ════════════════════════════════════════════════════════════
+   PAPER NOTE (peeks out from behind the Polaroid)
+   ════════════════════════════════════════════════════════════ */
+
+.paper-note {
+  position: absolute;
+  z-index: 0;
+  top: 3%;
+  right: -18%;
+  width: 40%;
+  aspect-ratio: 5 / 6;
+  pointer-events: none;
+}
+
+.paper-note__sheet {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 1px;
+  background:
+    linear-gradient(90deg, transparent 15%, rgb(220 165 154 / 0.6) 15%, rgb(220 165 154 / 0.6) calc(15% + 1px), transparent calc(15% + 1px)),
+    repeating-linear-gradient(180deg, transparent 0 13px, rgb(128 104 91 / 0.16) 13px 14px),
+    #fffaf1;
+  background-position: 0 0, 0 22px, 0 0;
+  box-shadow:
+    0 1px 1px rgb(56 37 31 / 0.06),
+    0 12px 20px -12px rgb(56 37 31 / 0.3);
+}
+
+.paper-note__mark {
+  position: absolute;
+  right: 14%;
+  bottom: 10%;
+  width: 18%;
+  aspect-ratio: 1;
+  color: var(--color-terracotta);
+  rotate: 8deg;
+}
+
+@media (max-width: 47.99rem), (max-width: 63.99rem) and (orientation: portrait) {
+  .paper-note {
+    top: 5%;
+    right: -14%;
+    width: 34%;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   BACKDROP — light, curve, specks
+   ════════════════════════════════════════════════════════════ */
+
+.hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__light {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(55% 50% at 16% 24%, rgb(216 175 114 / 0.24), transparent 70%),
+    radial-gradient(40% 38% at 90% 88%, rgb(220 165 154 / 0.15), transparent 72%),
+    linear-gradient(118deg, transparent 30%, rgb(255 236 200 / 0.18) 42%, transparent 56%),
+    radial-gradient(130% 100% at 50% 45%, transparent 66%, rgb(128 104 91 / 0.06) 100%);
+}
+
+.hero__doodles {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__curve {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: rgb(200 117 96 / 0.3);
+}
+
+.hero__speck {
+  position: absolute;
+  display: block;
+}
+.hero__speck-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero__speck--a {
+  top: 15%;
+  right: 8%;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #c4954f;
+}
+.hero__speck--b {
+  top: 7%;
+  left: 41%;
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--color-rose);
+}
+.hero__speck--c {
+  bottom: 13%;
+  right: 32%;
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--color-rose);
+}
+
+@media (max-width: 47.99rem), (max-width: 63.99rem) and (orientation: portrait) {
+  .hero__curve {
+    display: none;
+  }
+  .hero__speck--a {
+    top: 3.5%;
+    right: 6%;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .hero__speck--b,
+  .hero__speck--c {
+    display: none;
+  }
+  .polaroid__doodle--sparkle {
+    top: auto;
+    bottom: 30cqi;
+    right: -8.5cqi;
+    width: 7.5cqi;
+    height: 7.5cqi;
+  }
+}

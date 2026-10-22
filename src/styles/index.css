@@ -1,0 +1,90 @@
+@import 'tailwindcss';
+
+/* ── Design tokens (also available as Tailwind utilities, e.g. bg-ivory, text-terracotta, font-hand) ── */
+@theme {
+  --color-ivory: #f7f0e6;
+  --color-paper: #fff9f0;
+  --color-espresso: #38251f;
+  --color-muted: #7a6255; /* a touch deeper than #80685B for AA contrast on ivory */
+  --color-terracotta: #c87560;
+  --color-terracotta-deep: #a95a47; /* AA-safe terracotta for small text */
+  --color-rose: #dca59a;
+  --color-honey: #d8af72;
+  --color-cocoa: #2d211d;
+
+  --font-serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-sans: 'DM Sans Variable', 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+:root {
+  /* Fine grain, baked as an espresso-tinted noise tile. */
+  --noise-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .15 0 0 0 0 .12 0 0 0 .36 -.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Soft mottling, like the fibres in heavy paper. */
+  --noise-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .28 0 0 0 .09 -.03'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  --shadow-paper:
+    0 1px 1px rgb(56 37 31 / 0.06), 0 3px 6px -2px rgb(56 37 31 / 0.1), 0 14px 24px -10px rgb(56 37 31 / 0.22),
+    0 34px 60px -24px rgb(56 37 31 / 0.3);
+
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background-color: var(--color-ivory);
+    background-image: var(--noise-paper), var(--noise-fine);
+    background-size: 600px 600px, 180px 180px;
+    color: var(--color-espresso);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: rgb(220 165 154 / 0.45);
+    color: var(--color-cocoa);
+  }
+
+  :focus-visible {
+    outline: 2px dashed var(--color-terracotta);
+    outline-offset: 5px;
+    border-radius: 4px;
+  }
+
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+}
+
+.tint-heart {
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  margin-left: 0.12em;
+  vertical-align: -0.02em;
+  color: var(--color-terracotta);
+}
+
+/* Static film grain over everything — sits on top but never catches clicks or scrolls. */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background-image: var(--noise-fine);
+  background-size: 180px 180px;
+  opacity: 0.14;
+}
