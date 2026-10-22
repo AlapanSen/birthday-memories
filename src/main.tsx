@@ -13,7 +13,9 @@ import '@fontsource-variable/dm-sans';
 
 import './styles/index.css';
 import './styles/hero.css';
-import './styles/story.css';
+import './styles/media.css';
+import './styles/journey.css';
+import './styles/widgets.css';
 import App from './App';
 
 const root = document.getElementById('root');

@@ -5,6 +5,7 @@ import { EASE_SETTLE, EASE_TEXT, MOBILE_QUERY, timeline, useMediaQuery } from '.
 import { HeartDoodle, SparkleDoodle, StarDoodle, withHearts } from './Doodles';
 import { PolaroidCard } from './PolaroidCard';
 import { ScrollCue } from './ScrollCue';
+import { useJourneyMarker, useMusic } from '../music/MusicProvider';
 
 const rise = (delay: number, reduce: boolean, distance = 22) => ({
   initial: { opacity: 0, y: reduce ? 0 : distance },
@@ -17,6 +18,8 @@ export function HeroSection() {
   const reduce = useReducedMotion() ?? false;
   const isMobile = useMediaQuery(MOBILE_QUERY);
   const { eyebrow, headline, intro, cta, signature, photo } = heroContent;
+  const music = useMusic();
+  useJourneyMarker(ref, 'intro', 'the beginning');
 
   // Scroll-linked drift as the hero leaves. Motion drives these off a single
   // shared scroll observer (no per-frame React renders, no layout reads).
@@ -106,7 +109,13 @@ export function HeroSection() {
             <span className="hero__divider-line hero__divider-line--short" />
           </motion.div>
 
-          <ScrollCue label={cta.label} targetId={cta.targetId} delay={timeline.cta} reduceMotion={reduce} />
+          <ScrollCue
+            label={cta.label}
+            targetId={cta.targetId}
+            delay={timeline.cta}
+            reduceMotion={reduce}
+            onActivate={music.start}
+          />
         </motion.div>
       </div>
 

@@ -9,14 +9,17 @@ export interface ScrollCueProps {
   targetId: string;
   delay?: number;
   reduceMotion: boolean;
+  /** Runs on click, inside the tap — e.g. to start the music. */
+  onActivate?: () => void;
 }
 
 /**
  * A real anchor (works with JS disabled, keyboard, and screen readers),
  * upgraded with a smooth scroll + focus hand-off.
  */
-export function ScrollCue({ label, targetId, delay = 0, reduceMotion }: ScrollCueProps) {
+export function ScrollCue({ label, targetId, delay = 0, reduceMotion, onActivate }: ScrollCueProps) {
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onActivate?.();
     const target = document.getElementById(targetId);
     if (!target) return; // fall back to the native anchor jump
     event.preventDefault();

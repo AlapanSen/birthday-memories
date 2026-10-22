@@ -29,12 +29,6 @@ export interface HeroContent {
   photo: PhotoContent;
 }
 
-export interface StoryContent {
-  id: string;
-  eyebrow: string;
-  heading: string;
-}
-
 const base = import.meta.env.BASE_URL;
 
 export const heroContent: HeroContent = {
@@ -58,10 +52,4 @@ export const heroContent: HeroContent = {
     caption: 'Happy Birthday ♡',
     note: 'a little something, just for you',
   },
-};
-
-export const storyContent: StoryContent = {
-  id: 'our-story',
-  eyebrow: 'chapter one',
-  heading: 'It all started somewhere…',
 };
